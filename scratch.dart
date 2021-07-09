@@ -1,13 +1,12 @@
-import 'dart:io';
-
 void main() {
   performTask();
 }
 
-void performTask() {
+void performTask() async {
   task1();
-  task2();
-  task3();
+  print(task2());
+  // String task2Result = await task2();
+  // task3(task2Result);
 }
 
 void task1() {
@@ -15,12 +14,19 @@ void task1() {
   print('Task 1 complete');
 }
 
-void task2() {
-  String result = 'task 2 data';
-  print('Task 2 complete');
+Future<String> task2() async {
+  Duration threeSeconds = Duration(seconds: 3);
+  String result = '';
+  await Future.delayed(threeSeconds, () {
+    result = 'task 2 data';
+    print('Task 2 complete');
+  });
+  return result;
 }
 
-void task3() {
+void task3(String task2Data) {
+  // Duration threeSeconds = Duration(seconds: 2);
+  // sleep(threeSeconds);
   String result = 'task 3 data';
-  print('Task 3 complete');
+  print('Task 3 complete with $task2Data');
 }
