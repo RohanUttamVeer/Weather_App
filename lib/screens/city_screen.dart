@@ -13,10 +13,10 @@ class _CityScreenState extends State<CityScreen> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/getWeather.png'),
+            image: AssetImage('assets/getWeather.jpg'),
             fit: BoxFit.cover,
             colorFilter: ColorFilter.mode(
-                Colors.white.withOpacity(1.0), BlendMode.dstATop),
+                Colors.white.withOpacity(0.8), BlendMode.dstATop),
           ),
         ),
         constraints: BoxConstraints.expand(),
@@ -33,13 +33,15 @@ class _CityScreenState extends State<CityScreen> {
                   child: Icon(
                     Icons.arrow_back_ios,
                     size: 50,
+                    color: Colors.grey[400],
                   ),
                 ),
               ),
               Container(
                 padding: EdgeInsets.all(20),
                 child: TextField(
-                  style: TextStyle(color: Colors.black),
+                  style: TextStyle(
+                      color: Colors.grey[400], fontWeight: FontWeight.bold),
                   decoration: InputDecoration(
                     filled: true,
                     // fillColor: Colors.white,
@@ -50,7 +52,7 @@ class _CityScreenState extends State<CityScreen> {
                     // ),
                     hintText: 'enter city name',
                     hintStyle: TextStyle(
-                        color: Colors.green,
+                        color: Colors.grey[400],
                         fontSize: 20,
                         fontWeight: FontWeight.bold),
                     border: OutlineInputBorder(
@@ -59,7 +61,7 @@ class _CityScreenState extends State<CityScreen> {
                     ),
                   ),
                   onChanged: (value) {
-                    print(value);
+                    cityName = value;
                   },
                 ),
               ),
@@ -72,7 +74,10 @@ class _CityScreenState extends State<CityScreen> {
                   },
                   child: Text(
                     'GET WEATHER',
-                    style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        color: Colors.grey[400],
+                        fontSize: 35,
+                        fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
