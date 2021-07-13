@@ -13,7 +13,7 @@ class _CityScreenState extends State<CityScreen> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/getWeather.jpg'),
+            image: AssetImage('assets/getWeather.png'),
             fit: BoxFit.cover,
             colorFilter: ColorFilter.mode(
                 Colors.white.withOpacity(1.0), BlendMode.dstATop),
