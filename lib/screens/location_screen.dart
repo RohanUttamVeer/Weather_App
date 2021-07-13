@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:weather_app/services/weather.dart';
+import 'city_screen.dart';
 
 class LocationScreen extends StatefulWidget {
   LocationScreen({this.locationWeather});
@@ -25,13 +26,21 @@ class _LocationScreenState extends State<LocationScreen> {
   }
 
   void updateUI(dynamic weatherData) {
-    double temp = weatherData['main']['temp'];
-    temperature = temp.toInt();
-    var condition = weatherData['weather'][0]['id'];
-    weatherIcon = weatherModel.getWeatherCondition(condition!);
-    weatherMessage = weatherModel.getMessage(temperature!);
-
-    city = weatherData['name'];
+    setState(() {
+      if (weatherData == null) {
+        temperature = 0;
+        weatherIcon = 'error 404';
+        weatherMessage = 'unable to update weather';
+        city = '';
+        return;
+      }
+      double temp = weatherData['main']['temp'];
+      temperature = temp.toInt();
+      var condition = weatherData['weather'][0]['id'];
+      weatherIcon = weatherModel.getWeatherCondition(condition!);
+      weatherMessage = weatherModel.getMessage(temperature!);
+      city = weatherData['name'];
+    });
   }
 
   @override
@@ -56,20 +65,28 @@ class _LocationScreenState extends State<LocationScreen> {
                 children: [
                   // ignore: deprecated_member_use
                   FlatButton(
-                    onPressed: null,
+                    onPressed: () async {
+                      var weatherData = await weatherModel.getLocationWeather();
+                      updateUI(weatherData);
+                    },
                     child: Icon(
                       Icons.near_me,
                       size: 50,
-                      color: Colors.blueGrey,
+                      color: Colors.yellow,
                     ),
                   ),
                   // ignore: deprecated_member_use
                   FlatButton(
-                    onPressed: null,
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return CityScreen();
+                      }));
+                    },
                     child: Icon(
                       Icons.location_city,
                       size: 50,
-                      color: Colors.blueGrey,
+                      color: Colors.yellow,
                     ),
                   ),
                 ],
@@ -83,7 +100,7 @@ class _LocationScreenState extends State<LocationScreen> {
                       style: TextStyle(
                         fontSize: 50,
                         fontStyle: FontStyle.italic,
-                        color: Colors.yellow,
+                        color: Colors.amberAccent,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -99,12 +116,12 @@ class _LocationScreenState extends State<LocationScreen> {
               Padding(
                 padding: EdgeInsets.only(right: 15),
                 child: Text(
-                  weatherMessage!,
+                  '${weatherMessage!}  @${city!}',
                   textAlign: TextAlign.right,
                   style: TextStyle(
                     fontSize: 50,
                     fontStyle: FontStyle.italic,
-                    color: Colors.red,
+                    color: Colors.teal,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

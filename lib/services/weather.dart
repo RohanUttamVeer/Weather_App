@@ -1,4 +1,21 @@
+import 'package:weather_app/services/location.dart';
+import 'package:weather_app/services/networking.dart';
+
+const apiKey = '546f892f6984d3c99c996a504172f711';
+const openWeatherMapUrl = 'https://api.openweathermap.org/data/2.5/weather';
+
 class WeatherModel {
+  Future<dynamic> getLocationWeather() async {
+    Location location = Location();
+    await location.getCurrentLocation();
+
+    NetworkHelper networkHelper = NetworkHelper(
+        '$openWeatherMapUrl?lat=${location.latitude}&lon=${location.longitude}&appid=$apiKey&units=metric');
+
+    var weatherData = await networkHelper.getData();
+    return weatherData;
+  }
+
   String? getWeatherCondition(int condition) {
     if (condition < 300)
       return '🌩️';
@@ -19,10 +36,10 @@ class WeatherModel {
   }
 
   String? getMessage(int temp) {
-    if (temp > 30)
+    if (temp > 40)
       return 'it\'s 🍦 time';
-    else if (temp > 20)
-      return ' time for shorts 🩳 and 🎽';
+    else if (temp > 30)
+      return ' time for shorts and 🎽';
     else if (temp < 20)
       return ' you\'ll need a 🧥 and 🧤';
     else
